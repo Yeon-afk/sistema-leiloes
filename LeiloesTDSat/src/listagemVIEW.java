@@ -137,17 +137,37 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
         ProdutosDAO produtosdao = new ProdutosDAO();
+    int id = -1;
+
+    
+    int linhaSelecionada = listaProdutos.getSelectedRow();
+    if (linhaSelecionada >= 0) {
+        id = (int) listaProdutos.getValueAt(linhaSelecionada, 0); 
+    } else {
         
-        produtosdao.venderProduto(Integer.parseInt(id)); 
-        listarProdutos();
+        String idStr = id_produto_venda.getText().trim();
+        if (!idStr.isEmpty()) {
+            try {
+                id = Integer.parseInt(idStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID digitado é inválido.");
+                return;
+            }
+        }
+    }
+
+    if (id != -1) {
+        produtosdao.venderProduto(id);
+        listarProdutos(); 
+    } else {
+        JOptionPane.showMessageDialog(null, "Selecione um produto na tabela ou digite o ID.");
+    }
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        //vendasVIEW vendas = new vendasVIEW(); 
-        //vendas.setVisible(true);
+        VendasVIEW vendas = new VendasVIEW(); 
+        vendas.setVisible(true);
     }//GEN-LAST:event_btnVendasActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
